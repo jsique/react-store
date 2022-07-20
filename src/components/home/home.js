@@ -37,7 +37,7 @@ function Home(){
                     {
                         products && products.map(p=>
                             <div key={p.data().name} className="item">
-                                <img src={p.data().image}  width="auto" height="170px" />
+                                <img src={require("../../assets/img/"+p.data().img_name)} alt={p.data().name} width="auto" height="170px" />
                                 <h5>{p.data().name}</h5>
                                 <label  className="label-names"><strong>Precio: ${p.data().precio}</strong></label><br/>
                                 <label  className="label-names"><strong>Unidades disponibles: {p.data().disponible}</strong></label>
