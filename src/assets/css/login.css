@@ -1,5 +1,5 @@
 #login{
-    background-image: url("../img/login-fondo.jpg");
+    background-image: url("../../../public/img/login-fondo.jpg");
     background-size: 100% 100%; 
     background-attachment: fixed;
     /*
@@ -21,8 +21,12 @@ input{
     background-color: green;
     border-color: green;
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-    width: fit-content;
-    padding: 0px 12px 12px 12px;
+    border: 1px solid grey;
+    /* display: block; */
+    text-decoration: none;
+    box-shadow: none;
+    padding: 7px 15px 7px 15px;
+    border-radius: 7px;
 }
 
 .texto{

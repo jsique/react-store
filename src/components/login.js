@@ -6,7 +6,7 @@ import { useAuth } from "../services/authContext";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../assets/css/login.css';
 
-console.log("este es el login")
+//console.log("este es el login")
 
 function Login(){
     const [user, setUser] = useState({
@@ -21,20 +21,22 @@ function Login(){
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log("handleSubmit"+ user.password);
+        //console.log("handleSubmit"+ user.password);
         setError("");
         //if(emailPattern.text(user.email)){}
         try {
             await login(user.email, user.password);
             navigate("/");
         } catch (error) {
-            console.log(error.message);
+            //console.log(error.message);
             setError("Error en el inicio de sesión");
         }
     };
 
     const handleChange = ({ target: { value, name } }) =>
         setUser({ ...user, [name]: value });
+
+    
 
     return (
         <div className="" id="login">
@@ -58,7 +60,7 @@ function Login(){
                                     <span className="error">{error}</span>
                                 </div>
                                 <div className="form-group ">
-                                    <button className="btn btn-primary btn-block button ">Ingresar</button>
+                                    <button className="btn-primary button ">Ingresar</button>
                                 </div>
                             </form>
                         </div>

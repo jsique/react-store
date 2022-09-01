@@ -1,6 +1,6 @@
 /* You can add global styles to this file, and also import other style files */
 body{
-    background-image: url("../../assets/img/main-fondo.jpg");
+    background-image: url("../../../public/img/main-fondo.jpg");
     background-size: 100% 100%; 
     background-attachment: fixed;
     /*
@@ -53,15 +53,15 @@ body{
     margin-top: 3px;
     margin-bottom: 6px;
 }
-.btn{
+.btn1{
     margin-left: 15px;
     margin-right: 5px;
     color: white;
     width: 70px;
     height: 30px;
     text-align: center;
-    
     font-size: 12px;
+    border-radius: 5px;
 }
 .number-product{
     width: 40px;

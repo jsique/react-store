@@ -3,19 +3,22 @@ import '../../assets/css/home.css';
 import NavBar from '../navBar';
 import {getProducts} from "../../services/api.js";
 import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
+//import {  useNavigate } from "react-router-dom";
 
 function Home(){
     const [products, setProdcuts] = useState();
-
+    //const navigate = useNavigate();
     useEffect(() =>{
         getProductsData();
     }, []);
 
     const getProductsData = async () =>{
         const p = await getProducts();
-        console.log(p.docs);
+        //console.log(p.docs);
         setProdcuts(p.docs);
     }
+
 
     return (
         <div id="home" className="">
@@ -37,11 +40,16 @@ function Home(){
                     {
                         products && products.map(p=>
                             <div key={p.data().name} className="item">
-                                <img src={require("../../assets/img/"+p.data().img_name)} alt={p.data().name} width="auto" height="170px" />
+                                <img src={"/img/"+p.data().img_name} alt={p.data().name} width="auto" height="170px" />
                                 <h5>{p.data().name}</h5>
                                 <label  className="label-names"><strong>Precio: ${p.data().precio}</strong></label><br/>
                                 <label  className="label-names"><strong>Unidades disponibles: {p.data().disponible}</strong></label>
                                 <div className="container more-options">
+                                    <Link to={"/detail_product/"+p.id}>
+                                    <button className="btn1 btn-primary" 
+                                    >
+                                        Ver Más</button></Link>
+                                    <button className="btn1 btn-warning" >Añadir</button>
                                     <input type="number" min="1" className="number-product" id="quantityP" defaultValue={1}/>
                                 </div>
                             </div>

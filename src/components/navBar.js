@@ -7,12 +7,14 @@ import { useAuth } from "../services/authContext";
 
 function NavBar(){
 
-    const { logout, user } = useAuth();
+    const { logout } = useAuth();
 
-    console.log(user);
+    //console.log('user 1:',user);
     const handleLogout = async () => {
         try {
+            console.log('logout');
             await logout();
+            //location.reload();
         } catch (error) {
             console.error(error.message);
         }
