@@ -9,16 +9,63 @@ import { Link } from "react-router-dom";
 function Home(){
     const [products, setProdcuts] = useState();
     //const navigate = useNavigate();
-    useEffect(() =>{
-        getProductsData();
-    }, []);
+    const [filteredList, setFilteredList] =  useState();
+
+    var shopCar=[];
+    var [quantity, setQuantity] = useState();
+    //let refValueInput = useRef();
 
     const getProductsData = async () =>{
         const p = await getProducts();
         //console.log(p.docs);
         setProdcuts(p.docs);
+        setFilteredList(p.docs);
     }
+    useEffect(() =>{
+        getProductsData();
+        //setFilteredList(products);
+    }, []);
 
+    /*useEffect(() =>{
+        console.log("actualizanod valor",refValueInput.value);
+    }, [refValueInput]);*/
+
+    const filterBySearch = (event) => {
+        // Access input value
+        const query = event.target.value;
+        // Create copy of item list
+        var updatedList = [...products];
+        // Include all elements which includes the search query
+        updatedList = updatedList.filter((item) => {
+            return item.data().name.toLowerCase().indexOf(query.toLowerCase()) !== -1;
+        });
+        // Trigger render with updated values
+        setFilteredList(updatedList);
+    };
+
+    let payProducts=(e, prmProduct, value=0)=>{
+        
+        //console.log("refValueInput:"+refValueInput.current.value);
+        console.log("VALUE:"+value);
+        console.log("e:"+e);
+        var prodTemp = 
+            {
+                "idProduct"     : prmProduct.id,
+                "nameProduct"   : prmProduct.data().name,
+                "priceProduct"  : prmProduct.data().precio,
+                "quantity"      : value,
+                "nameImage"     : prmProduct.data().img_name
+            }; //
+        shopCar.push(prodTemp);
+        //setShopCar(prodTemp); //
+
+        console.log("shopCar:",shopCar);
+    };
+
+    const handleChange = (e) => {
+        //console.log("called handle changed");
+        setQuantity(e.target.value);
+      };
 
     return (
         <div id="home" className="">
@@ -31,14 +78,14 @@ function Home(){
                     <div className="form-inline">
                         <label >¿Qué estás buscando?</label>
                         <input id="filter_Product  " name="filter_Product" className="form-control mr-sm-2 bi-search" type="input" placeholder="Buscar producto" 
-                        aria-label="Search" width="200"/>
+                        aria-label="Search" width="200" onChange={filterBySearch}/>
                     </div>
                 </nav>
                 <hr></hr>
                 <div key={1} className="wrapper">
                     <div key={2} className="gallery">
                     {
-                        products && products.map(p=>
+                        filteredList && filteredList.map(p=>
                             <div key={p.data().name} className="item">
                                 <img src={"/img/"+p.data().img_name} alt={p.data().name} width="auto" height="170px" />
                                 <h5>{p.data().name}</h5>
@@ -49,8 +96,8 @@ function Home(){
                                     <button className="btn1 btn-primary" 
                                     >
                                         Ver Más</button></Link>
-                                    <button className="btn1 btn-warning" >Añadir</button>
-                                    <input type="number" min="1" className="number-product" id="quantityP" defaultValue={1}/>
+                                    <button className="btn1 btn-warning" onClick={()=>payProducts(document.getElementById("quantityP").value , p ,quantity)} >Añadir</button>
+                                    <input type="number" min="1" className="number-product" id="quantityP" defaultValue={1} onChange={handleChange} />
                                 </div>
                             </div>
                         )
