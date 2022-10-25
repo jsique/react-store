@@ -11,8 +11,8 @@ function Home(){
     //const navigate = useNavigate();
     const [filteredList, setFilteredList] =  useState();
 
-    var shopCar=[];
-    var [quantity, setQuantity] = useState();
+    var [shopCar, setShopCar]=useState();
+    var [quantity, setQuantity] = useState(1);
     //let refValueInput = useRef();
 
     const getProductsData = async () =>{
@@ -43,11 +43,11 @@ function Home(){
         setFilteredList(updatedList);
     };
 
-    let payProducts=(e, prmProduct, value=0)=>{
+    let payProducts=(prmProduct, value)=>{
         
         //console.log("refValueInput:"+refValueInput.current.value);
         console.log("VALUE:"+value);
-        console.log("e:"+e);
+        //console.log("e:"+e);
         var prodTemp = 
             {
                 "idProduct"     : prmProduct.id,
@@ -56,15 +56,16 @@ function Home(){
                 "quantity"      : value,
                 "nameImage"     : prmProduct.data().img_name
             }; //
-        shopCar.push(prodTemp);
-        //setShopCar(prodTemp); //
-
+        //shopCar.push(prodTemp);
+        setQuantity(1);
+        setShopCar({...prodTemp}); //
         console.log("shopCar:",shopCar);
     };
 
     const handleChange = (e) => {
         //console.log("called handle changed");
         setQuantity(e.target.value);
+        
       };
 
     return (
@@ -96,8 +97,8 @@ function Home(){
                                     <button className="btn1 btn-primary" 
                                     >
                                         Ver Más</button></Link>
-                                    <button className="btn1 btn-warning" onClick={()=>payProducts(document.getElementById("quantityP").value , p ,quantity)} >Añadir</button>
-                                    <input type="number" min="1" className="number-product" id="quantityP" defaultValue={1} onChange={handleChange} />
+                                    <button className="btn1 btn-warning" onClick={()=>payProducts( p ,quantity)} >Añadir</button>
+                                    <input type="number" min="1" className="number-product" id="quantityP" onChange={handleChange} value={quantity}/>
                                 </div>
                             </div>
                         )
