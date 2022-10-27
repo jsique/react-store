@@ -11,7 +11,7 @@ function Home(){
     //const navigate = useNavigate();
     const [filteredList, setFilteredList] =  useState();
 
-    var [shopCar, setShopCar]=useState();
+    
     var [quantity, setQuantity] = useState(1);
     //let refValueInput = useRef();
 
@@ -42,7 +42,7 @@ function Home(){
         // Trigger render with updated values
         setFilteredList(updatedList);
     };
-
+    var [shopCar, setShopCar]=useState([]);
     let payProducts=(prmProduct, value)=>{
         
         //console.log("refValueInput:"+refValueInput.current.value);
@@ -58,8 +58,10 @@ function Home(){
             }; //
         //shopCar.push(prodTemp);
         setQuantity(1);
-        setShopCar({...prodTemp}); //
-        console.log("shopCar:",shopCar);
+        setShopCar([...shopCar, prodTemp]); //
+        setTimeout(()=>{
+            console.log("shopCar:",shopCar);
+        },4000);
     };
 
     const handleChange = (e) => {
