@@ -21,7 +21,7 @@ function Home() {
 		const data = p.docs.map((doc) => {
 			return {
 				id: doc.id,
-				quantity: 0,
+				quantity: 1,
 				...doc.data(),
 			};
 		});
@@ -81,16 +81,20 @@ function Home() {
 		// setQuantity(1);
 	};
 
-	const showShopoCar = () => {
+	/*const showShopoCar = () => {
 		console.log("value", shopCar);
-	};
+	};*/
 	const handleChange = (e) => {
 		//console.log("called handle changed");
-		// setQuantity(e.target.value);
-		const item = products.find((product) => product.id == e.id);
+		quantity = e.target.value;
+		//p.quantity
+		setQuantity(e.target.value);
+		/*
+		const item = products.find((product) => product.id === e.id);
 		console.log("item found", item);
-		const newItems = products.filter((product) => product.id != e.id);
+		const newItems = products.filter((product) => product.id !== e.id);
 		setProdcuts([...newItems, { quantity: (e.quantity++), ...e }]);
+		*/
 	};
 
 	return (
