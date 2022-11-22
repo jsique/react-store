@@ -86,16 +86,45 @@ function Home() {
 	};*/
 	const handleChange = (e) => {
 		//console.log("called handle changed");
-		quantity = e.target.value;
+		let quantity = e.quantity;
+		console.log("item found", e);
+
 		//p.quantity
-		setQuantity(e.target.value);
-		/*
+		setQuantity(e.quantity);
+		
 		const item = products.find((product) => product.id === e.id);
-		console.log("item found", item);
 		const newItems = products.filter((product) => product.id !== e.id);
 		setProdcuts([...newItems, { quantity: (e.quantity++), ...e }]);
-		*/
+		
 	};
+
+	const handlePlus = (e) => {
+		//console.log("called handle changed");
+		let quantity = e.quantity;
+		console.log("item found", e);
+
+		//p.quantity
+		setQuantity(e.quantity);
+		
+		const item = products.find((product) => product.id === e.id);
+		const newItems = products.filter((product) => product.id !== e.id);
+		setProdcuts([...newItems, { quantity: (e.quantity++), ...e }]);
+		
+	}
+
+	const handleMinor = (e) => {
+		//console.log("called handle changed");
+		let quantity = e.quantity;
+		console.log("item found", e);
+
+		//p.quantity
+		setQuantity(e.quantity);
+		
+		const item = products.find((product) => product.id === e.id);
+		const newItems = products.filter((product) => product.id !== e.id);
+		setProdcuts([...newItems, { quantity: (e.quantity--), ...e }]);
+		
+	}
 
 	return (
 		<div id="home" className="">
@@ -150,12 +179,14 @@ function Home() {
 											Añadir
 										</button>
 										<input
-											type="number"
+											type="text"
 											min="1"
 											className="number-product"
 											onChange={() => handleChange(p)}
 											value={p.quantity}
 										/>
+										<button onClick={() => handlePlus(p)}> mas </button>
+										<button onClick={() => handleMinor(p)}> menos </button>
 									</div>
 								</div>
 							))}
