@@ -14,7 +14,7 @@ function Home() {
 
 	var [quantity, setQuantity] = useState(1);
 	//let refValueInput = useRef();
-
+	let [contProduct, setContProduct] = useState(0);
 	const getProductsData = async () => {
 		const p = await getProducts();
 		//console.log(p.docs);
@@ -55,17 +55,35 @@ function Home() {
 	};
 
 	let payProducts = (prmProduct, value) => {
-		console.log("prmProduct", prmProduct);
-		console.log("value", value);
-		console.log("value", shopCar);
-		var prodTemp = {
-			idProduct: prmProduct.id,
-			nameProduct: prmProduct.name,
-			priceProduct: prmProduct.precio,
-			quantity: prmProduct.quantity,
-			nameImage: prmProduct.img_name,
-		}; //
-		setShopCar([...shopCar, prodTemp]);
+		//console.log("prmProduct", prmProduct);
+		//console.log("value", value);
+		console.log("shopCar", shopCar);
+		var prodTemp={};
+		var exist = shopCar.filter((x)=>x.idProduct === prmProduct.id);
+		console.log("exist = ", exist.length);
+		if (exist.length) {
+			console.log("existe");
+			prodTemp = shopCar.find((element)=>{
+				return element.idProduct===prmProduct.id
+			});
+			prodTemp = {
+				quantity: quantity+prmProduct.quantity
+			}; 
+			setShopCar([...shopCar]);
+		}
+		else{
+			console.log("no existe");
+			prodTemp = {
+				idProduct: prmProduct.id,
+				nameProduct: prmProduct.name,
+				priceProduct: prmProduct.precio,
+				quantity: prmProduct.quantity,
+				nameImage: prmProduct.img_name,
+			}; //
+			setContProduct(payProducts.length);
+			setShopCar([...shopCar, prodTemp]);
+		}
+		
 		// //console.log("refValueInput:"+refValueInput.current.value);
 		// console.log("VALUE:"+value);
 		// //console.log("e:"+e);
@@ -81,32 +99,15 @@ function Home() {
 		// setQuantity(1);
 	};
 
-	/*const showShopoCar = () => {
-		console.log("value", shopCar);
-	};*/
-	const handleChange = (e) => {
-		//console.log("called handle changed");
-		let quantity = e.quantity;
-		console.log("item found", e);
-
-		//p.quantity
-		setQuantity(e.quantity);
-		
-		const item = products.find((product) => product.id === e.id);
-		const newItems = products.filter((product) => product.id !== e.id);
-		setProdcuts([...newItems, { quantity: (e.quantity++), ...e }]);
-		
-	};
-
 	const handlePlus = (e) => {
 		//console.log("called handle changed");
-		let quantity = e.quantity;
-		console.log("item found", e);
+		//let quantity = e.quantity;
+		//console.log("item found", e);
 
 		//p.quantity
 		setQuantity(e.quantity);
 		
-		const item = products.find((product) => product.id === e.id);
+		//const item = products.find((product) => product.id === e.id);
 		const newItems = products.filter((product) => product.id !== e.id);
 		setProdcuts([...newItems, { quantity: (e.quantity++), ...e }]);
 		
@@ -114,28 +115,31 @@ function Home() {
 
 	const handleMinor = (e) => {
 		//console.log("called handle changed");
-		let quantity = e.quantity;
-		console.log("item found", e);
+		quantity = e.quantity;
+		//console.log("item found", e);
 
 		//p.quantity
 		setQuantity(e.quantity);
 		
-		const item = products.find((product) => product.id === e.id);
+		//const item = products.find((product) => product.id === e.id);
 		const newItems = products.filter((product) => product.id !== e.id);
+		if(quantity<=1){
+			e.quantity = 2;
+		}
 		setProdcuts([...newItems, { quantity: (e.quantity--), ...e }]);
 		
 	}
 
 	return (
 		<div id="home" className="">
-			<NavBar />
+			<NavBar listShoCar={shopCar} contProduct={contProduct} />
 			<div className="navbar1 content ">
 				<nav className="navbar navbar-expand-lg navbar-light navbar2">
 					<div className="container-fluid">
 						<h3>Catálogo de productos</h3>
 					</div>
 					<div className="form-inline">
-						<label>¿Qué estás buscando? {shopCar.length}</label>
+						<label>¿Qué estás buscando?</label>
 						<input
 							id="filter_Product  "
 							name="filter_Product"
@@ -178,15 +182,17 @@ function Home() {
 										>
 											Añadir
 										</button>
+										
 										<input
 											type="text"
 											min="1"
 											className="number-product"
-											onChange={() => handleChange(p)}
+											/*onChange={() => handleChange(p)}*/
 											value={p.quantity}
+											readOnly={true}
 										/>
-										<button onClick={() => handlePlus(p)}> mas </button>
-										<button onClick={() => handleMinor(p)}> menos </button>
+										<button onClick={() => handlePlus(p)} className="countMax"><div className="txtPlus">+</div></button>
+										<button onClick={() => handleMinor(p)} className="countMin" ><div className="txtMin">-</div></button>
 									</div>
 								</div>
 							))}

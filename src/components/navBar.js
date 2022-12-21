@@ -5,8 +5,9 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import { useAuth } from "../services/authContext";
 
-function NavBar(){
+function NavBar(params){
 
+    //console.log("contador:"+params.contProduct);
     const { logout } = useAuth();
 
     //console.log('user 1:',user);
