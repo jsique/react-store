@@ -31,9 +31,7 @@ function DetailProduct(){
         //console.log("Result getProduct",p);
         setProdcut(p.data());
     }
-    
-
-    console.log(product);
+    //console.log(product);
     /*const { match: { params } } = this.props;
     console.log(params.detail_product)*/
     return(

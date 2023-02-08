@@ -34,8 +34,9 @@ function Home() {
 	}, []);
 
 	useEffect(() => {
-		console.log("shopCAr update", shopCar);
-	}, [shopCar]);
+		//console.log("shopCAr update", shopCar);
+		setContProduct(shopCar.length);
+	}, [shopCar, filteredList,contProduct]);
 
 	/*useEffect(() =>{
         console.log("actualizanod valor",refValueInput.value);
@@ -57,22 +58,33 @@ function Home() {
 	let payProducts = (prmProduct, value) => {
 		//console.log("prmProduct", prmProduct);
 		//console.log("value", value);
-		console.log("shopCar", shopCar);
+		//console.log("shopCar", shopCar);
 		var prodTemp={};
 		var exist = shopCar.filter((x)=>x.idProduct === prmProduct.id);
-		console.log("exist = ", exist.length);
+		//console.log("exist = ", exist.length);
 		if (exist.length) {
-			console.log("existe");
-			prodTemp = shopCar.find((element)=>{
-				return element.idProduct===prmProduct.id
+			//console.log("existe");
+			shopCar.map(function(element){
+				if(element.idProduct===prmProduct.id){
+					//console.log("product existe");
+					element.quantity+=prmProduct.quantity;
+				}
+				return true;
 			});
-			prodTemp = {
-				quantity: quantity+prmProduct.quantity
-			}; 
+			
 			setShopCar([...shopCar]);
+
+			filteredList.map(function(e){
+				if(e.id===prmProduct.id){
+					//console.log("product existe IF MAPLIST");
+					e.disponible-=prmProduct.quantity;
+				}
+				return true;
+			});
+			setFilteredList(filteredList);
 		}
 		else{
-			console.log("no existe");
+			//console.log("no existe");
 			prodTemp = {
 				idProduct: prmProduct.id,
 				nameProduct: prmProduct.name,
@@ -80,8 +92,16 @@ function Home() {
 				quantity: prmProduct.quantity,
 				nameImage: prmProduct.img_name,
 			}; //
-			setContProduct(payProducts.length);
 			setShopCar([...shopCar, prodTemp]);
+
+			filteredList.map(function(e){
+				if(e.id===prmProduct.id){
+					//console.log("product existe ELSE MAPLIST");
+					e.disponible-=prmProduct.quantity;
+				}
+				return true;
+			});
+			setFilteredList(filteredList);
 		}
 		
 		// //console.log("refValueInput:"+refValueInput.current.value);
@@ -132,7 +152,7 @@ function Home() {
 
 	return (
 		<div id="home" className="">
-			<NavBar listShoCar={shopCar} contProduct={contProduct} />
+			<NavBar listShopCar={JSON.stringify(shopCar)} contProduct={contProduct} />
 			<div className="navbar1 content ">
 				<nav className="navbar navbar-expand-lg navbar-light navbar2">
 					<div className="container-fluid">

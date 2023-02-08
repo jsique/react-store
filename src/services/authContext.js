@@ -27,7 +27,7 @@ export function AuthProvider({children}){
     //session state
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
-
+    //let [gListShop, setgListShop] = useState([]);
 
     const login = (email, password) => {
         return signInWithEmailAndPassword(auth, email, password);
@@ -43,6 +43,8 @@ export function AuthProvider({children}){
         });
         return () => unsubuscribe();
     }, []);
+
+    //const fnListShopCar = (gListShop) =>{        return setgListShop(gListShop);    }
 
     return (
         <authContext.Provider value={{login, loading, user, logout}}>

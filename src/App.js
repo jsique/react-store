@@ -6,6 +6,7 @@ import Login from './components/login';
 import DetailProduct from './components/detail-product/detail_product';
 import { AuthProvider } from './services/authContext';
 import {ProtectedRoute} from './components/protectedRoute';
+import ShoppingCart from "./components/shopping-cart/shopping-cart";
 
 function App() {
   return (
@@ -24,11 +25,21 @@ function App() {
           }
         />
         <Route path="/login" element={<Login/>} />
-        <Route path="/detail_product/:productId" element={
-          <ProtectedRoute>
-            <DetailProduct/>
-          </ProtectedRoute>
-          } />
+        
+        <Route path="/detail_product/:productId"
+          element={
+            <ProtectedRoute>
+              <DetailProduct/>
+            </ProtectedRoute>
+          } 
+        />
+        <Route path="/shopping_cart" 
+          element={
+            <ProtectedRoute>
+              <ShoppingCart/>
+            </ProtectedRoute>
+          } 
+        />
       </Routes>
     </AuthProvider>
   );
