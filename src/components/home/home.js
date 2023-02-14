@@ -4,6 +4,7 @@ import NavBar from "../navBar";
 import { getProducts } from "../../services/api.js";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import { useAuth } from "../../services/authContext";
 //import {  useNavigate } from "react-router-dom";
 
 function Home() {
@@ -15,6 +16,9 @@ function Home() {
 	var [quantity, setQuantity] = useState(1);
 	//let refValueInput = useRef();
 	let [contProduct, setContProduct] = useState(0);
+
+	const { setgListShop } = useAuth();
+
 	const getProductsData = async () => {
 		const p = await getProducts();
 		//console.log(p.docs);
@@ -36,7 +40,8 @@ function Home() {
 	useEffect(() => {
 		//console.log("shopCAr update", shopCar);
 		setContProduct(shopCar.length);
-	}, [shopCar, filteredList,contProduct]);
+		setgListShop(shopCar);
+	}, [shopCar, filteredList,contProduct,setgListShop]);
 
 	/*useEffect(() =>{
         console.log("actualizanod valor",refValueInput.value);
@@ -152,7 +157,7 @@ function Home() {
 
 	return (
 		<div id="home" className="">
-			<NavBar listShopCar={JSON.stringify(shopCar)} contProduct={contProduct} />
+			<NavBar contProduct={contProduct} />
 			<div className="navbar1 content ">
 				<nav className="navbar navbar-expand-lg navbar-light navbar2">
 					<div className="container-fluid">

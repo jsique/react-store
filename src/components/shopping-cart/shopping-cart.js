@@ -1,8 +1,17 @@
 import React from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import NavBar from '../navBar';
+import { authContext } from "../../services/authContext";
+import { useEffect, useContext } from "react";
 function ShoppingCart(){
-   
+
+    
+	//const { gListShop } = useAuth();
+    const { gListShop } = useContext(authContext);
+    useEffect(()=>{
+        console.log(gListShop);
+    },[gListShop]);
+
     return(
         <div>
             <NavBar/>
@@ -32,6 +41,9 @@ function ShoppingCart(){
                         <button type="button" className="btn btn-light btn_cart" >Pagar</button>
                     </div>
                 </div>
+                {gListShop && gListShop.map((p) => (
+                        <p key={p.idProduct}>{p.nameProduct}</p>
+                    ))}
             </div>
         </div>
     )

@@ -5,7 +5,9 @@ import { createContext, useContext, useEffect, useState } from "react";
 import { signInWithEmailAndPassword, onAuthStateChanged,signOut } from "firebase/auth";
 import {auth} from "../services/firebase";
 
-export const authContext = createContext();
+export const authContext = createContext({
+    gListShop: []
+});
 
 /**
  * I export use auth to get what would be the user data in session, this at the same time is a kind of custom hook
@@ -27,7 +29,7 @@ export function AuthProvider({children}){
     //session state
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
-    //let [gListShop, setgListShop] = useState([]);
+    const [gListShop, setgListShop] = useState([]);
 
     const login = (email, password) => {
         return signInWithEmailAndPassword(auth, email, password);
@@ -47,7 +49,7 @@ export function AuthProvider({children}){
     //const fnListShopCar = (gListShop) =>{        return setgListShop(gListShop);    }
 
     return (
-        <authContext.Provider value={{login, loading, user, logout}}>
+        <authContext.Provider value={{login, loading, user, logout, gListShop,setgListShop}}>
             {children}
         </authContext.Provider>
     )   

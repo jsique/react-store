@@ -8,12 +8,14 @@ import { Link  } from "react-router-dom";
 import { useAuth } from "../services/authContext";
 
 
+
 function NavBar(params){
+    const { logout } = useAuth();
     //let history = useLocation();
     //console.log("contador:"+params.contProduct);
-    //let {fnListShopCar} = useAuth();
-    const { logout } = useAuth();
-    console.log("listShopCar:"+JSON.stringify(params.listShopCar));
+    
+    //const authProvider = useContext(useAuth);
+    //console.log("listShopCar:"+gListShop);
     //console.log('user 1:',user);
     const handleLogout = async () => {
         try {
