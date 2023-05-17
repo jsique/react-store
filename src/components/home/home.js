@@ -26,6 +26,7 @@ function Home() {
 			return {
 				id: doc.id,
 				quantity: 1,
+				disponible:0,
 				...doc.data(),
 			};
 		});
@@ -67,28 +68,40 @@ function Home() {
 		var prodTemp={};
 		var exist = shopCar.filter((x)=>x.idProduct === prmProduct.id);
 		//console.log("exist = ", exist.length);
+		var tmpD = 0;
 		if (exist.length) {
-			//console.log("existe");
-			shopCar.map(function(element){
-				if(element.idProduct===prmProduct.id){
-					//console.log("product existe");
-					element.quantity+=prmProduct.quantity;
-				}
-				return true;
-			});
-			
-			setShopCar([...shopCar]);
-
+			//console.log("existe");		
+			//quantity available is changed
 			filteredList.map(function(e){
 				if(e.id===prmProduct.id){
 					//console.log("product existe IF MAPLIST");
 					e.disponible-=prmProduct.quantity;
+					tmpD=e.disponible;
+				}
+				return tmpD;
+			});
+			//shopping cart data is added
+			shopCar.map(function(element){
+				if(element.idProduct===prmProduct.id){
+					//console.log("product existe");
+					element.quantity+=prmProduct.quantity;
+					element.disponible=tmpD;
 				}
 				return true;
 			});
+
+			setShopCar([...shopCar]);
 			setFilteredList(filteredList);
 		}
 		else{
+			filteredList.map(function(e){
+				if(e.id===prmProduct.id){
+					//console.log("product existe ELSE MAPLIST");
+					e.disponible-=prmProduct.quantity;
+					tmpD=e.disponible;
+				}
+				return tmpD;
+			});
 			//console.log("no existe");
 			prodTemp = {
 				idProduct: prmProduct.id,
@@ -96,16 +109,9 @@ function Home() {
 				priceProduct: prmProduct.precio,
 				quantity: prmProduct.quantity,
 				nameImage: prmProduct.img_name,
+				disponible : tmpD,
 			}; //
 			setShopCar([...shopCar, prodTemp]);
-
-			filteredList.map(function(e){
-				if(e.id===prmProduct.id){
-					//console.log("product existe ELSE MAPLIST");
-					e.disponible-=prmProduct.quantity;
-				}
-				return true;
-			});
 			setFilteredList(filteredList);
 		}
 		

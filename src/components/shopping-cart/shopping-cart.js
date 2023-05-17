@@ -4,13 +4,18 @@ import NavBar from '../navBar';
 import { authContext } from "../../services/authContext";
 import { useEffect, useContext,useState } from "react";
 import "../../assets/css/shopping_car.css";
+import {  useNavigate } from "react-router-dom";
+import { updateProduct } from "../../services/api.js";
 function ShoppingCart(){
-
+    const navigate = useNavigate();
+    const BackToHome = () => {
+        navigate("/");
+    }
     const [totalAmount, settotalAmount] = useState(0);
 	//const { gListShop } = useAuth();
     const { gListShop } = useContext(authContext);
     useEffect(()=>{
-        //console.log(gListShop);
+        console.log(gListShop);
         let tmpAmount = 0;
         if(gListShop.length > 0){
             gListShop.map((p)=>(
@@ -20,6 +25,16 @@ function ShoppingCart(){
             settotalAmount(tmpAmount);
         }
     },[gListShop]);
+
+    const payCart = async () => {
+        await gListShop.map((p) => {
+                //console.log(p);
+                var result =  updateProduct(p.idProduct,p.disponible);
+                return result;
+            }
+        );
+        navigate("/");
+    }; 
 
     return(
         <div>
@@ -60,9 +75,21 @@ function ShoppingCart(){
                             }
                     </div>
                     <div className="col-6">
-                        <h3>Total: ${totalAmount} </h3>
-                        <button type="button" className="btn btn-light btn_cart"  >Cancelar</button>
-                        <button type="button" className="btn btn-light btn_cart" >Pagar</button>
+                        <div className="row">
+                            <h3>Total: $ {totalAmount} </h3>
+                        </div>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <td>
+                                        <button type="button" className="btn btn-light btn_cart" onClick={BackToHome} >Cancelar</button>
+                                    </td>
+                                    <td>
+                                        <button type="button" className="btn btn-light btn_cart" onClick={payCart} >Pagar</button>
+                                    </td>
+                                </tr>
+                            </thead>
+                        </table>
                     </div>
                 </div>
             </div>

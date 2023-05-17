@@ -1,4 +1,4 @@
-import { collection, getDocs, query, orderBy, doc, getDoc /*, addDoc, deleteDoc, updateDoc, setDoc, where*/ } from "firebase/firestore";
+import { collection, getDocs, query, orderBy, doc, getDoc,updateDoc /*, addDoc, deleteDoc, , setDoc, where*/ } from "firebase/firestore";
 import { db } from './firebase';
 
 export const getProducts= async ()  => {
@@ -12,4 +12,14 @@ export const getProduct = async (id) => {
     const result = await getDoc(docRef);
 
     return result;
+}
+
+export const updateProduct = async (id,quantity)=>{
+    const docRef = doc(db, "products", id);
+    const result = await updateDoc(docRef,
+        {    
+            disponible : quantity
+        }
+    );
+    return result; 
 }
