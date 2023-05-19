@@ -6,38 +6,33 @@ import { useAuth } from "../services/authContext";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../assets/css/login.css';
 
-//console.log("este es el login")
-
 function Login(){
+    //constant for get data form login user
     const [user, setUser] = useState({
         email: "",
         password: "",
     });
 
-    //const emailPattern = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    //context for login
     const { login } = useAuth();
+    //constant for handler error
     const [error, setError] = useState("");
+    //hook navigate
     const navigate = useNavigate();
-
+    //Submit data form login
     const handleSubmit = async (e) => {
         e.preventDefault();
-        //console.log("handleSubmit"+ user.password);
         setError("");
-        //if(emailPattern.text(user.email)){}
         try {
             await login(user.email, user.password);
             navigate("/");
         } catch (error) {
-            //console.log(error.message);
             setError("Error en el inicio de sesión");
         }
     };
-
+    //Handler change form login
     const handleChange = ({ target: { value, name } }) =>
         setUser({ ...user, [name]: value });
-
-    
-
     return (
         <div className="" id="login">
             <div className="container" >

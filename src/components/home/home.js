@@ -8,20 +8,21 @@ import { useAuth } from "../../services/authContext";
 //import {  useNavigate } from "react-router-dom";
 
 function Home() {
+	//constant for array of products
 	const [products, setProdcuts] = useState([]);
-	//const navigate = useNavigate();
+	//array constant to filter products
 	const [filteredList, setFilteredList] = useState([]);
+	//array constant add products to shopping cart
 	const [shopCar, setShopCar] = useState([]);
-
+	//constant to keep track of the amount of products added
 	var [quantity, setQuantity] = useState(1);
-	//let refValueInput = useRef();
+	//constant product counter
 	let [contProduct, setContProduct] = useState(0);
-
+	//hook to bring the list to the shopping cart view
 	const { setgListShop } = useAuth();
-
+	//función para obtener la lista de productos
 	const getProductsData = async () => {
 		const p = await getProducts();
-		//console.log(p.docs);
 		const data = p.docs.map((doc) => {
 			return {
 				id: doc.id,
@@ -33,21 +34,18 @@ function Home() {
 		setProdcuts(data);
 		setFilteredList(data);
 	};
+	//rendering
 	useEffect(() => {
 		getProductsData();
-		//setFilteredList(products);
 	}, []);
-
+	//rendering update
 	useEffect(() => {
 		//console.log("shopCAr update", shopCar);
 		setContProduct(shopCar.length);
 		setgListShop(shopCar);
 	}, [shopCar, filteredList,contProduct,setgListShop]);
 
-	/*useEffect(() =>{
-        console.log("actualizanod valor",refValueInput.value);
-    }, [refValueInput]);*/
-
+	//función para hacer filtro de búsqueda
 	const filterBySearch = (event) => {
 		// Access input value
 		const query = event.target.value;
@@ -61,20 +59,15 @@ function Home() {
 		setFilteredList(updatedList);
 	};
 
+	//función de control para carrito de compras
 	let payProducts = (prmProduct, value) => {
-		//console.log("prmProduct", prmProduct);
-		//console.log("value", value);
-		//console.log("shopCar", shopCar);
 		var prodTemp={};
 		var exist = shopCar.filter((x)=>x.idProduct === prmProduct.id);
-		//console.log("exist = ", exist.length);
 		var tmpD = 0;
 		if (exist.length) {
-			//console.log("existe");		
 			//quantity available is changed
 			filteredList.map(function(e){
 				if(e.id===prmProduct.id){
-					//console.log("product existe IF MAPLIST");
 					e.disponible-=prmProduct.quantity;
 					tmpD=e.disponible;
 				}
@@ -83,7 +76,6 @@ function Home() {
 			//shopping cart data is added
 			shopCar.map(function(element){
 				if(element.idProduct===prmProduct.id){
-					//console.log("product existe");
 					element.quantity+=prmProduct.quantity;
 					element.disponible=tmpD;
 				}
@@ -114,51 +106,22 @@ function Home() {
 			setShopCar([...shopCar, prodTemp]);
 			setFilteredList(filteredList);
 		}
-		
-		// //console.log("refValueInput:"+refValueInput.current.value);
-		// console.log("VALUE:"+value);
-		// //console.log("e:"+e);
-		// var prodTemp =
-		//     {
-		//         "idProduct"     : prmProduct.id,
-		//         "nameProduct"   : prmProduct.data().name,
-		//         "priceProduct"  : prmProduct.data().precio,
-		//         "quantity"      : value,
-		//         "nameImage"     : prmProduct.data().img_name
-		//     }; //
-		// //shopCar.push(prodTemp);
-		// setQuantity(1);
 	};
-
+	//plus one unit
 	const handlePlus = (e) => {
-		//console.log("called handle changed");
-		//let quantity = e.quantity;
-		//console.log("item found", e);
-
-		//p.quantity
 		setQuantity(e.quantity);
-		
-		//const item = products.find((product) => product.id === e.id);
 		const newItems = products.filter((product) => product.id !== e.id);
 		setProdcuts([...newItems, { quantity: (e.quantity++), ...e }]);
-		
 	}
-
+	//least one unit
 	const handleMinor = (e) => {
-		//console.log("called handle changed");
 		quantity = e.quantity;
-		//console.log("item found", e);
-
-		//p.quantity
 		setQuantity(e.quantity);
-		
-		//const item = products.find((product) => product.id === e.id);
 		const newItems = products.filter((product) => product.id !== e.id);
 		if(quantity<=1){
 			e.quantity = 2;
 		}
 		setProdcuts([...newItems, { quantity: (e.quantity--), ...e }]);
-		
 	}
 
 	return (

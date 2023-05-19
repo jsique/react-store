@@ -7,13 +7,17 @@ import "../../assets/css/shopping_car.css";
 import {  useNavigate } from "react-router-dom";
 import { updateProduct } from "../../services/api.js";
 function ShoppingCart(){
+    //hook const navigate
     const navigate = useNavigate();
+    //function back to homepage
     const BackToHome = () => {
         navigate("/");
     }
+    //constant for total amount control
     const [totalAmount, settotalAmount] = useState(0);
-	//const { gListShop } = useAuth();
+	//global shopping cart listing constant hook
     const { gListShop } = useContext(authContext);
+    //Rendering of shopping cart
     useEffect(()=>{
         console.log(gListShop);
         let tmpAmount = 0;
@@ -25,10 +29,11 @@ function ShoppingCart(){
             settotalAmount(tmpAmount);
         }
     },[gListShop]);
-
+    //function for pay shopping car
     const payCart = async () => {
+        //tour cycle
         await gListShop.map((p) => {
-                //console.log(p);
+                //function call to update the list of products
                 var result =  updateProduct(p.idProduct,p.disponible);
                 return result;
             }

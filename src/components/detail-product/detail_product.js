@@ -6,34 +6,28 @@ import {getProduct} from "../../services/api.js";
 import { useState , useEffect } from "react";
 import {  useNavigate, useParams } from "react-router-dom";
 function DetailProduct(){
-
+    //back to home page
     const navigate = useNavigate();
     const BackToHome = () => {
         navigate("/");
     }
-
-    
-    //console.log('productId:',productId);
-
+    //array of parameters
     const [product, setProdcut] = useState("");
     
-    //const navigate = useNavigate();
+    //idProduct for vie rendering 
     let { productId } = useParams();
     
+    //useEffect for vie rendering product
     useEffect(() =>{
         getProductData(productId);
     }, [productId]);
         
 
-
+    //function for get information about product
     const getProductData = async (productId) =>{
         const p = await getProduct(productId);
-        //console.log("Result getProduct",p);
         setProdcut(p.data());
     }
-    //console.log(product);
-    /*const { match: { params } } = this.props;
-    console.log(params.detail_product)*/
     return(
         <div>
             <NavBar/>
